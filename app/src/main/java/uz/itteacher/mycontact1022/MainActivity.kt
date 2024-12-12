@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uz.itteacher.mycontact1022.db.AppDataBase
 import uz.itteacher.mycontact1022.layout.AddContactScreen
 import uz.itteacher.mycontact1022.layout.InfoContactScreen
 import uz.itteacher.mycontact1022.layout.MainScreen
@@ -23,6 +24,7 @@ import uz.itteacher.mycontact1022.ui.theme.MyContact1022Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val mydb = AppDataBase.getInstance(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
                             MainScreen(navController = navController)
                         }
                         composable(route = "create") {
-                            AddContactScreen(navController = navController)
+                            AddContactScreen(navController = navController,mydb)
                         }
 
                         composable(route = "info") {

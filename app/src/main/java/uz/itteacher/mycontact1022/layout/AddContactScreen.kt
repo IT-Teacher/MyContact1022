@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,11 +38,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import uz.itteacher.mycontact1022.db.AppDataBase
+import uz.itteacher.mycontact1022.model.MyContact
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddContactScreen(navController: NavController) {
+fun AddContactScreen(navController: NavController, mydb: AppDataBase) {
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var number by remember { mutableStateOf("") }
@@ -62,23 +65,73 @@ fun AddContactScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "Add Contact", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
+            IconButton(onClick = {
+                mydb.myContactDao().addContact(MyContact(name = name, surname = surname, number = number))
+                navController.navigate("main")
+            }) {
+                Icon(Icons.Default.Check, contentDescription = "Check")
+            }
 
-            Icon(Icons.Default.Check, contentDescription = "Check")
         }
 
         Text(text = "Name", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        Box(modifier = Modifier.clip(shape= RoundedCornerShape(6.dp)).border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp)).background(Color(0xFFE5E5E5))) {
-            TextField(value = name, onValueChange = { name = it }, placeholder = {Text(text = "enter name")}, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent, focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent))
+        Box(
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(6.dp))
+                .border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp))
+                .background(Color(0xFFE5E5E5))
+        ) {
+            TextField(
+                value = name,
+                onValueChange = { name = it },
+                placeholder = { Text(text = "enter name") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
         }
         Spacer(modifier = Modifier.height(14.dp))
         Text(text = "Surname", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        Box(modifier = Modifier.clip(shape= RoundedCornerShape(6.dp)).border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp)).background(Color(0xFFE5E5E5))) {
-            TextField(value = surname, onValueChange = { surname = it }, placeholder = {Text(text = "enter surname")}, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent, focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent))
+        Box(
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(6.dp))
+                .border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp))
+                .background(Color(0xFFE5E5E5))
+        ) {
+            TextField(
+                value = surname,
+                onValueChange = { surname = it },
+                placeholder = { Text(text = "enter surname") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
         }
         Spacer(modifier = Modifier.height(14.dp))
         Text(text = "PhoneNumber", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        Box(modifier = Modifier.clip(shape= RoundedCornerShape(6.dp)).border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp)).background(Color(0xFFE5E5E5))) {
-            TextField(value = number, onValueChange = { number = it }, placeholder = {Text(text = "+998 __ ___ __ __")}, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent, focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent))
+        Box(
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(6.dp))
+                .border(1.dp, Color(0xFFC5C5C5), shape = RoundedCornerShape(6.dp))
+                .background(Color(0xFFE5E5E5))
+        ) {
+            TextField(
+                value = number,
+                onValueChange = { number = it },
+                placeholder = { Text(text = "+998 __ ___ __ __") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
         }
 
     }

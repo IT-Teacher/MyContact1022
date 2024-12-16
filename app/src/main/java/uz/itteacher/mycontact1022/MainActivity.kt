@@ -35,14 +35,15 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "main") {
                         composable(route = "main") {
-                            MainScreen(navController = navController)
+                            MainScreen(navController = navController, mydb)
                         }
                         composable(route = "create") {
                             AddContactScreen(navController = navController,mydb)
                         }
 
-                        composable(route = "info") {
-                            InfoContactScreen(navController = navController)
+                        composable(route = "info/{id}") {navBackStackEntry ->
+                            val id = navBackStackEntry.arguments?.getString("id")
+                            InfoContactScreen(navController = navController, mydb, id!!.toInt())
                         }
                     }
                 }

@@ -14,4 +14,8 @@ interface MyContactDao {
     @Insert
     fun addContact(contact: MyContact)
 
+    @Query("SELECT * FROM my_contacts WHERE id = :id")
+    fun getContactById(id: Int): MyContact?
+
+
 }

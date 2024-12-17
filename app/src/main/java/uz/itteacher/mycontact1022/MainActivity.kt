@@ -41,8 +41,9 @@ class MainActivity : ComponentActivity() {
                         composable(route = "main") {
                             MainScreen(navController = navController, mydb)
                         }
-                        composable(route = "create") {
-                            AddContactScreen(navController = navController,mydb)
+                        composable(route = "create/{id}") { navBackStackEntry ->
+                            val id = navBackStackEntry.arguments?.getString("id")
+                            AddContactScreen(navController = navController,mydb, id!!.toInt())
                         }
 
                         composable(route = "info/{id}", arguments = listOf(navArgument("id") {type = NavType.IntType}))

@@ -44,10 +44,21 @@ import uz.itteacher.mycontact1022.model.MyContact
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddContactScreen(navController: NavController, mydb: AppDataBase) {
+fun AddContactScreen(navController: NavController, mydb: AppDataBase, id: Int) {
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var number by remember { mutableStateOf("") }
+    var check by remember { mutableStateOf(false) }
+
+    if (id != 0 && !check) {
+        val contact = mydb.myContactDao().getContactById(id)
+        if (contact != null) {
+            name = contact.name
+            surname = contact.surname.toString()
+            number = contact.number
+        }
+        check = true
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -66,8 +77,14 @@ fun AddContactScreen(navController: NavController, mydb: AppDataBase) {
                 Text(text = "Add Contact", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
             IconButton(onClick = {
-                mydb.myContactDao().addContact(MyContact(name = name, surname = surname, number = number))
-                navController.navigate("main")
+                if (check) {
+                    mydb.myContactDao().updateContact(id, name, surname, number)
+                    navController.navigate("main")
+                } else {
+                    mydb.myContactDao()
+                        .addContact(MyContact(name = name, surname = surname, number = number))
+                    navController.navigate("main")
+                }
             }) {
                 Icon(Icons.Default.Check, contentDescription = "Check")
             }

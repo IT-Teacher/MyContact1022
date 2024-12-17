@@ -28,7 +28,7 @@ import uz.itteacher.mycontact1022.db.AppDataBase
 @Composable
 fun InfoContactScreen(navController: NavController, mydb: AppDataBase, id: Int) {
      val contact = mydb.myContactDao().getContactById(id)
-    Log.d("TAG", "InfoContactScreen: ${contact!!.name}")
+
 
     Column(modifier = Modifier
         .fillMaxSize()

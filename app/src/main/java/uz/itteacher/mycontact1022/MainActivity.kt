@@ -1,5 +1,6 @@
 package uz.itteacher.mycontact1022
 
+import android.R.attr.type
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,9 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavArgument
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import uz.itteacher.mycontact1022.db.AppDataBase
 import uz.itteacher.mycontact1022.layout.AddContactScreen
 import uz.itteacher.mycontact1022.layout.InfoContactScreen
@@ -41,8 +45,9 @@ class MainActivity : ComponentActivity() {
                             AddContactScreen(navController = navController,mydb)
                         }
 
-                        composable(route = "info/{id}") {navBackStackEntry ->
-                            val id = navBackStackEntry.arguments?.getString("id")
+                        composable(route = "info/{id}", arguments = listOf(navArgument("id") {type = NavType.IntType}))
+                        { navBackStackEntry ->
+                            val id = navBackStackEntry.arguments?.getInt("id")
                             InfoContactScreen(navController = navController, mydb, id!!.toInt())
                         }
                     }
